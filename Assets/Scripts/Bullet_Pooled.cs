@@ -2,30 +2,33 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// A bullet that can be used in an object pool
-/// </summary>
-public class Bullet_Pooled : MonoBehaviour
+namespace Completed
 {
     /// <summary>
-    /// The lifetime of this bullet
+    /// A bullet that can be used in an object pool
     /// </summary>
-    public float Lifetime = 2.0f;
-
-    void Start()
+    public class Bullet_Pooled : MonoBehaviour
     {
-        // Invoke the ReturnToPool method after <Lifetime> seconds
-        Invoke("ReturnToPool", Lifetime);
-    }
+        /// <summary>
+        /// The lifetime of this bullet
+        /// </summary>
+        public float Lifetime = 2.0f;
 
-    void ReturnToPool()
-    {
-        gameObject.SetActive(false);
-    }
+        private void OnEnable()
+        {
+            // Invoke the ReturnToPool method after <Lifetime> seconds
+            Invoke("ReturnToPool", Lifetime);
+        }
 
-    private void OnDisable()
-    {
-        // Clean up any lingering after this object is returned to pool
-        CancelInvoke();
+        void ReturnToPool()
+        {
+            gameObject.SetActive(false);
+        }
+
+        private void OnDisable()
+        {
+            // Clean up any lingering after this object is returned to pool
+            CancelInvoke();
+        }
     }
 }

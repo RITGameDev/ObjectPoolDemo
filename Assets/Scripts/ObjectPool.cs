@@ -12,36 +12,32 @@ namespace Completed
     /// starting point. 
     /// </summary>
     /// <author>Ben Hoffman</author>
-    public class ObjectPool : MonoBehaviour
+    public class ObjectPool
     {
         /// <summary>
         /// The person prefab object that will be spawned at random
         /// </summary>
-        [Tooltip("The person prefab object that will be spawned at random")]
-        public GameObject PooledObj_Prefab;
+        private readonly GameObject PooledObj_Prefab;
 
         /// <summary>
         /// How many of these objects to instantiate on start
         /// </summary>
-        [Tooltip("How many of these objects to instantiate on start")]
-        public int PooledAmount = 20;
+        private readonly int PooledAmount = 20;
 
-        /// <summary>
-        /// If we need more then the initial pooled amount, then this will instantiate a new object
-        /// </summary>
-        [Tooltip("If we need more then the initial pooled amount, then this will instantiate a new object")]
-        public bool WillGrow = true;
 
         private List<GameObject> m_ObjectList;
 
-        private void Start()
+        public ObjectPool(GameObject aBulletPrefab, int aPooledAmount)
         {
+            this.PooledObj_Prefab = aBulletPrefab;
+            this.PooledAmount = aPooledAmount;
+
             m_ObjectList = new List<GameObject>();
 
             for (int i = 0; i < PooledAmount; i++)
             {
                 // Instantiate the pooled object and add it to our list
-                m_ObjectList.Add(Instantiate(PooledObj_Prefab));
+                m_ObjectList.Add(GameObject.Instantiate(PooledObj_Prefab));
                 // Set it as INACTIVE
                 m_ObjectList[i].SetActive(false);
             }
@@ -69,12 +65,7 @@ namespace Completed
                 }
             }
 
-            // return an instantiate pooled object
-            GameObject temp = Instantiate(PooledObj_Prefab);
-            // Add it to our object pooled
-            m_ObjectList.Add(temp);
-            // Return it
-            return temp;
+            return null;
         }
     }
 
